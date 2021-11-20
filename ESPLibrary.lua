@@ -52,7 +52,7 @@ function ESPLibrary.Add(Model, Options)
 		BoxColor = Color3.new(0,0,0);
 		TextPrimaryColor = Color3.new(1,1,1);
 		TextSecondaryColor = Color3.new(0,0,0);
-  	},
+  	}
         ESPTable[Model] = {
             Name = Options and Options.Name or Model.Name,
             Model = Model,
@@ -79,7 +79,7 @@ function ESPLibrary.Add(Model, Options)
                     Size = 14,
                     Center = true,
                     Outline = true,
-                    OutlineColor = ChosenColors.TextSecondaryColor,
+                    OutlineColor = ChosenColors.TextSecondaryColor
                 })
             }
         }
