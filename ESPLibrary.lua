@@ -3,15 +3,12 @@ local ESP = {
     Enabled = false,
     Boxes = true,
     BoxShift = CFrame.new(0,-1.5,0),
-	  BoxSize = Vector3.new(4,6,0),
+    BoxSize = Vector3.new(4,6,0),
     Color = Color3.fromRGB(255, 170, 0),
     FaceCamera = false,
     Names = true,
-    TeamColor = true,
     Thickness = 2,
     AttachShift = 1,
-    TeamMates = true,
-    Players = true,
     
     Objects = setmetatable({}, {__mode="kv"}),
     Overrides = {}
@@ -35,42 +32,6 @@ local function Draw(obj, props)
 		new[i] = v
 	end
 	return new
-end
-
-function ESP:GetTeam(p)
-	local ov = self.Overrides.GetTeam
-	if ov then
-		return ov(p)
-	end
-	
-	return p and p.Team
-end
-
-function ESP:IsTeamMate(p)
-    local ov = self.Overrides.IsTeamMate
-	if ov then
-		return ov(p)
-    end
-    
-    return self:GetTeam(p) == self:GetTeam(plr)
-end
-
-function ESP:GetColor(obj)
-	local ov = self.Overrides.GetColor
-	if ov then
-		return ov(obj)
-    end
-    local p = self:GetPlrFromChar(obj)
-	return p and self.TeamColor and p.Team and p.Team.TeamColor.Color or self.Color
-end
-
-function ESP:GetPlrFromChar(char)
-	local ov = self.Overrides.GetPlrFromChar
-	if ov then
-		return ov(char)
-	end
-	
-	return plrs:GetPlayerFromCharacter(char)
 end
 
 function ESP:Toggle(bool)
@@ -156,12 +117,6 @@ function boxBase:Update()
 
     local allow = true
     if ESP.Overrides.UpdateAllow and not ESP.Overrides.UpdateAllow(self) then
-        allow = false
-    end
-    if self.Player and not ESP.TeamMates and ESP:IsTeamMate(self.Player) then
-        allow = false
-    end
-    if self.Player and not ESP.Players then
         allow = false
     end
     if self.IsEnabled and (type(self.IsEnabled) == "string" and not ESP[self.IsEnabled] or type(self.IsEnabled) == "function" and not self:IsEnabled()) then
@@ -268,7 +223,6 @@ function ESP:Add(obj, options)
         Color = options.Color --[[or self:GetColor(obj)]],
         Size = options.Size or self.BoxSize,
         Object = obj,
-        Player = options.Player or plrs:GetPlayerFromCharacter(obj),
         PrimaryPart = options.PrimaryPart or obj.ClassName == "Model" and (obj.PrimaryPart or obj:FindFirstChild("HumanoidRootPart") or obj:FindFirstChildWhichIsA("BasePart")) or obj:IsA("BasePart") and obj,
         Components = {},
         IsEnabled = options.IsEnabled,
