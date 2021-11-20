@@ -57,14 +57,14 @@ function ESPLibrary.Add(Model, Options)
             Name = Options and Options.Name or Model.Name,
             Model = Model,
             Drawing = {
-                Box = {
+                Box = {	
                     Main = AddDrawing("Square", {
                         ZIndex = 1,
                         Transparency = 1,
                         Thickness = 1,
                         Filled = false
                     }),
-                    Outline = AddDrawing("Square", {
+                    Outline = AddDrawing("Quad", {
                         ZIndex = 0,
                         Transparency = 0,
                         Color = ChosenColors.BoxColor,
